@@ -6,6 +6,7 @@ const blogSchema = new Schema<IBlogMongooseModel>(
         title: String,
         blogBody: String,
         tags: [String],
+        slug: String,
         is_published: {
             type: Boolean,
             default: false,
