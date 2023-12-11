@@ -14,6 +14,7 @@ const blogSchema = new Schema<IBlogMongooseModel>(
     },
     {
         timestamps: true,
+        toJSON: { virtuals: true },
     },
 );
 
