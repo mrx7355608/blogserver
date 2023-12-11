@@ -4,6 +4,7 @@ import morgan from "morgan";
 import hpp from "hpp";
 import cors from "cors";
 import { catch404, globalErrorHandler } from "./loaders/errorHandler";
+import { blogRouter } from "./api/routes/blog.routes";
 
 const app = express();
 
@@ -15,6 +16,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
+app.use("/api/v1/blogs", blogRouter);
 
 // ERROR HANDLERS
 app.use(catch404);

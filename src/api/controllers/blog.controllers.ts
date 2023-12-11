@@ -1,24 +1,17 @@
-import { Request, Response } from "express";
 import { BlogServices } from "../../services/blog.services";
+import { catchAsyncError } from "../../utils/catchAsyncError";
 
 const BlogControllers = () => {
     const blogServices = BlogServices();
 
-    async function getAllBlogs(req: Request, res: Response) {
-        try {
-            const { page } = req.query;
-            const blogs = await blogServices.listAllBlogs(page);
-            return res.status(200).json({
-                status: "success",
-                data: blogs,
-            });
-        } catch (err: unknown) {
-            return res.status(500).json({
-                status: "failed",
-                error: "An error occured",
-            });
-        }
-    }
+    const getAllBlogs = catchAsyncError(async function () {
+        const blogs = await blogServices.listAllBlogs(1);
+        return {
+            code: 200,
+            data: blogs,
+            message: "",
+        };
+    });
 
     return { getAllBlogs };
 };
