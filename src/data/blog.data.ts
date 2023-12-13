@@ -5,7 +5,8 @@ const BlogData = () => {
     async function findAll(skipVal: number) {
         const blogs = await BlogModel.find({ is_published: true })
             .skip(skipVal)
-            .limit(10);
+            .limit(10)
+            .sort("-createdAt");
         return blogs;
     }
 
@@ -17,7 +18,8 @@ const BlogData = () => {
     const findByTitle = async (title: string, skipVal: number) => {
         const blogs = await BlogModel.findOne({ title, is_published: true })
             .skip(skipVal)
-            .limit(10);
+            .limit(10)
+            .sort("-createdAt");
         return blogs;
     };
 
