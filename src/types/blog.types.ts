@@ -3,11 +3,11 @@ export interface IBlog {
     blogBody: string;
     tags: string[];
     slug: string;
-    published_on: string;
     is_published: boolean;
 }
 
 export interface IBlogMongooseModel extends Document, IBlog {
+    published_on: string; // virtual property
     createdAt: Date;
     updatedAt: Date;
 }
