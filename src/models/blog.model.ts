@@ -19,7 +19,7 @@ const blogSchema = new Schema<IBlogMongooseModel>(
 );
 
 blogSchema.virtual("published_on").get(function () {
-    return new Date(this.createdAt).toLocaleDateString();
+    return new Date(this.createdAt).toDateString();
 });
 
 const BlogModel = model("Blog", blogSchema);
