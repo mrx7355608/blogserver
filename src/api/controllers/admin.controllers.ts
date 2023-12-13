@@ -14,7 +14,18 @@ const AdminControllers = () => {
         };
     });
 
-    return { postNewBlog };
+    const patchBlog = catchAsyncError(async function (reqObject) {
+        const blogChanges = reqObject.body;
+        const blogId = reqObject.params.id;
+        const updatedBlog = await adminServices.editBlog(blogId, blogChanges);
+        return {
+            message: "Blog updated successfully",
+            data: updatedBlog,
+            code: 200,
+        };
+    });
+
+    return { postNewBlog, patchBlog };
 };
 
 export { AdminControllers };

@@ -28,37 +28,32 @@ const blogValidationSchema = joi.object({
 });
 
 const blogChangesValidationSchema = joi.object({
-    title: joi.string().trim().min(10).max(200).required().messages({
-        "any.required": "Blog title is required!",
+    title: joi.string().trim().min(10).max(200).messages({
         "string.empty": "Blog title cannot be empty",
         "string.min": "Blog title should be atleast 10 characters long",
         "string.max": "Blog title should not be longer than 200 characters",
         "string.base": "Blog title should be a string",
     }),
-    blogBody: joi.string().trim().min(400).max(6000).required().messages({
-        "any.required": "Blog body is required!",
+    blogBody: joi.string().trim().min(400).max(6000).messages({
         "string.empty": "Blog body cannot be empty",
         "string.min": "Blog body should be atleast 400 characters long",
         "string.max": "Blog body should not be longer than 6000 characters",
         "string.base": "Blog body should be a string",
     }),
-    tags: joi.array().valid(joi.string()).min(1).max(5).required().messages({
-        "any.required": "Blog tags are required!",
+    tags: joi.array().valid(joi.string()).min(1).max(5).messages({
         "array.empty": "Blog tags cannot be empty",
         "array.min": "Add atleast one tag to your blog",
         "array.max": "There can only be 5 tags per blog",
         "array.base": "Blog tags should be in a list",
     }),
-    slug: joi.string().required().messages({
-        "any.required": "Blog slug is required!",
+    slug: joi.string().messages({
         "string.empty": "Blog slug cannot be empty",
         "string.base": "Blog slug should be a string",
     }),
-    is_published: joi.boolean().required().messages({
-        "any.required": "Blog is_published field is required!",
-        "string.empty":
+    is_published: joi.boolean().messages({
+        "boolean.empty":
             "Blog is_published field should be either true or false",
-        "string.base": "Blog is_published field should be a boolean",
+        "boolean.base": "Blog is_published field should be a boolean",
     }),
 });
 
