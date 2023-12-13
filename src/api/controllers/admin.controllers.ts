@@ -1,7 +1,7 @@
-import { AdminServices } from "../../services/admin.services";
+import AdminServices from "../../services/admin.services";
 import { catchAsyncError } from "../../utils/catchAsyncError";
 
-const AdminControllers = () => {
+export default function AdminControllers() {
     const adminServices = AdminServices();
 
     const postNewBlog = catchAsyncError(async function (reqObject) {
@@ -83,6 +83,4 @@ const AdminControllers = () => {
         getPublishedBlogs,
         getUnPublishedBlogs,
     };
-};
-
-export { AdminControllers };
+}

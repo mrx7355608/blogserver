@@ -1,7 +1,7 @@
-import { BlogData } from "../data/blog.data";
+import BlogData from "../data/blog.data";
 import { ApiError } from "../utils/ApiError";
 
-const BlogServices = () => {
+export default function BlogServices() {
     const blogData = BlogData();
 
     // RETURN ALL BLOGS (PAGINATED)
@@ -16,7 +16,6 @@ const BlogServices = () => {
         if (!slug) {
             throw new ApiError("Blog slug is missing", 400);
         }
-
         const blog = await blogData.findBySlug(slug);
         if (blog == null) {
             throw new ApiError("Blog not found", 404);
@@ -25,6 +24,4 @@ const BlogServices = () => {
     }
 
     return { listAllBlogs, listOneBlogBySlug };
-};
-
-export { BlogServices };
+}

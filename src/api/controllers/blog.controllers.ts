@@ -1,7 +1,7 @@
-import { BlogServices } from "../../services/blog.services";
+import BlogServices from "../../services/blog.services";
 import { catchAsyncError } from "../../utils/catchAsyncError";
 
-const BlogControllers = () => {
+export default function BlogControllers() {
     const blogServices = BlogServices();
 
     const getAllBlogs = catchAsyncError(async function (reqObject) {
@@ -25,6 +25,4 @@ const BlogControllers = () => {
     });
 
     return { getAllBlogs, getBlogBySlug };
-};
-
-export { BlogControllers };
+}

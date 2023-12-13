@@ -1,4 +1,4 @@
-import { BlogData } from "../data/blog.data";
+import BlogData from "../data/blog.data";
 import { IBlog } from "../types/blog.types";
 import { ApiError } from "../utils/ApiError";
 import validator from "validator";
@@ -13,7 +13,7 @@ export type IRequestInput = {
     tags: string[];
 };
 
-const AdminServices = () => {
+export default function AdminServices() {
     const blogData = BlogData();
 
     async function createNewBlog(data: IRequestInput) {
@@ -125,6 +125,4 @@ const AdminServices = () => {
         listPublishedBlogs,
         listUnPublishedBlogs,
     };
-};
-
-export { AdminServices };
+}
