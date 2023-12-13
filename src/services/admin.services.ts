@@ -1,11 +1,11 @@
 import { BlogData } from "../data/blog.data";
 import { IBlog } from "../types/blog.types";
 import { ApiError } from "../utils/ApiError";
-import slugify from "../utils/slugify";
 import blogValidator, {
     blogChangesValidator,
 } from "../validators/blog.validator";
 import validator from "validator";
+import slugify from "slugify";
 
 export type IRequestInput = {
     title: string;
@@ -25,7 +25,7 @@ const AdminServices = () => {
             title: data.title,
             blogBody: data.body,
             tags: data.tags,
-            slug: slugify(data.title),
+            slug: slugify(data.title, { lower: true }),
             is_published: false,
         };
 
