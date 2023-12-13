@@ -5,6 +5,7 @@ import hpp from "hpp";
 import cors from "cors";
 import { catch404, globalErrorHandler } from "./loaders/errorHandler";
 import { blogRouter } from "./api/routes/blog.routes";
+import { adminRouter } from "./api/routes/admin.routes";
 
 const app = express();
 
@@ -17,6 +18,8 @@ app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
 app.use("/api/v1/blogs", blogRouter);
+// WARNING: change this dumb route
+app.use("/api/v1/admin", adminRouter);
 
 // ERROR HANDLERS
 app.use(catch404);
