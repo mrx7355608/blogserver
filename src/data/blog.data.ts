@@ -45,6 +45,19 @@ const BlogData = () => {
         return null;
     }
 
+    // WARNING: SHOULD ONLY BE USED BY ADMIN
+    async function findByFilter(
+        is_published: boolean,
+        sortBy: string,
+        skipVal: number,
+    ) {
+        const blogs = await BlogModel.find({ is_published })
+            .sort(sortBy)
+            .skip(skipVal)
+            .limit(10);
+        return blogs;
+    }
+
     return {
         findAll,
         findByID,
@@ -53,6 +66,7 @@ const BlogData = () => {
         create,
         updateByID,
         deleteByID,
+        findByFilter,
     };
 };
 
