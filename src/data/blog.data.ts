@@ -10,7 +10,7 @@ const BlogData = () => {
     }
 
     async function findByID(id: string) {
-        const blog = await BlogModel.findById({ _id: id, is_published: true });
+        const blog = await BlogModel.findById(id);
         return blog;
     }
 
