@@ -2,26 +2,34 @@ import { BlogModel } from "../models/blog.model";
 import { IBlog, IBlogMongooseModel } from "../types/blog.types";
 
 export default function BlogData() {
-    async function findAllPublishedBlogs(skipVal: number) {
+    async function findAllPublishedBlogs(skipVal: number): Promise<IBlog[]> {
         const blogs = await BlogModel.find({ is_published: true })
             .skip(skipVal)
             .limit(10)
-            .sort("-createdAt");
+            .sort("-createdAt")
+            .lean();
         return blogs;
     }
 
     // Used in searching blogs
-    async function findByTitle(title: string, skipVal: number) {
+    async function findByTitle(
+        title: string,
+        skipVal: number,
+    ): Promise<IBlog[]> {
         // TODO: use title regex instead of title itself
         const blogs = await BlogModel.find({ title, is_published: true })
             .skip(skipVal)
             .limit(10)
-            .sort("-createdAt");
+            .sort("-createdAt")
+            .lean();
         return blogs;
     }
 
-    async function findBySlug(slug: string) {
-        const blog = await BlogModel.findOne({ slug, is_published: true });
+    async function findBySlug(slug: string): Promise<IBlog | null> {
+        const blog = await BlogModel.findOne({
+            slug,
+            is_published: true,
+        }).lean();
         return blog;
     }
 
@@ -29,31 +37,35 @@ export default function BlogData() {
     //      FOR ADMIN USE ONLY
     // #############################
 
-    async function findAll(skipVal: number) {
+    async function findAll(skipVal: number): Promise<IBlog[]> {
         const blogs = await BlogModel.find()
             .skip(skipVal)
             .limit(10)
-            .sort("-createdAt");
+            .sort("-createdAt")
+            .lean();
         return blogs;
     }
 
-    async function findByID(id: string) {
-        const blog = await BlogModel.findById(id);
+    async function findByID(id: string): Promise<IBlog | null> {
+        const blog = await BlogModel.findById(id).lean();
         return blog;
     }
-    async function create(data: IBlog) {
+    async function create(data: IBlog): Promise<IBlog> {
         const newBlog = await BlogModel.create(data);
         return newBlog;
     }
 
-    async function updateByID(id: string, changes: Partial<IBlog>) {
+    async function updateByID(
+        id: string,
+        changes: Partial<IBlog>,
+    ): Promise<IBlog> {
         const updatedBlog = await BlogModel.findByIdAndUpdate(id, changes, {
             new: true,
         });
         return updatedBlog as IBlogMongooseModel;
     }
 
-    async function deleteByID(id: string) {
+    async function deleteByID(id: string): Promise<null> {
         await BlogModel.findByIdAndDelete(id);
         return null;
     }
