@@ -6,12 +6,7 @@ import slugify from "slugify";
 import blogValidator, {
     blogChangesValidator,
 } from "../validators/blog.validator";
-
-export type IRequestInput = {
-    title: string;
-    body: string;
-    tags: string[];
-};
+import { IRequestInput } from "../types/http.types";
 
 export default function AdminServices() {
     const blogData = BlogData();
