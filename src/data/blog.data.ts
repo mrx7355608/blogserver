@@ -1,5 +1,5 @@
 import { BlogModel } from "../models/blog.model";
-import { IBlog } from "../types/blog.types";
+import { IBlog, IBlogMongooseModel } from "../types/blog.types";
 
 export default function BlogData() {
     async function findAllPublishedBlogs(skipVal: number) {
@@ -13,7 +13,7 @@ export default function BlogData() {
     // Used in searching blogs
     async function findByTitle(title: string, skipVal: number) {
         // TODO: use title regex instead of title itself
-        const blogs = await BlogModel.findOne({ title, is_published: true })
+        const blogs = await BlogModel.find({ title, is_published: true })
             .skip(skipVal)
             .limit(10)
             .sort("-createdAt");
@@ -50,7 +50,7 @@ export default function BlogData() {
         const updatedBlog = await BlogModel.findByIdAndUpdate(id, changes, {
             new: true,
         });
-        return updatedBlog;
+        return updatedBlog as IBlogMongooseModel;
     }
 
     async function deleteByID(id: string) {

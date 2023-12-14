@@ -1,8 +1,10 @@
+import BlogData from "../../data/blog.data";
 import BlogServices from "../../services/blog.services";
 import { catchAsyncError } from "../../utils/catchAsyncError";
 
 export default function BlogControllers() {
-    const blogServices = BlogServices();
+    const blogsDB = BlogData();
+    const blogServices = BlogServices(blogsDB);
 
     const getAllBlogs = catchAsyncError(async function (reqObject) {
         const page = reqObject.query.page * 1 || 1;

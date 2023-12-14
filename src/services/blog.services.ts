@@ -1,9 +1,7 @@
-import BlogData from "../data/blog.data";
+import { IBlogData } from "../types/blogRepository.types";
 import { ApiError } from "../utils/ApiError";
 
-export default function BlogServices() {
-    const blogData = BlogData();
-
+export default function BlogServices(blogData: IBlogData) {
     // RETURN ALL BLOGS (PAGINATED)
     async function listAllBlogs(page: number) {
         const skipVal = (page - 1) * 10;
