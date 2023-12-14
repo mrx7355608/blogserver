@@ -1,6 +1,6 @@
 import joi from "joi";
 import { ApiError } from "../utils/ApiError";
-import { IRequestInput } from "../services/admin.services";
+import { IRequestInput } from "../types/http.types";
 import { IBlog } from "../types/blog.types";
 
 const blogValidationSchema = joi.object({
