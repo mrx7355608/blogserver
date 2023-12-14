@@ -1,4 +1,3 @@
-import BlogData from "../data/blog.data";
 import { IBlog } from "../types/blog.types";
 import { ApiError } from "../utils/ApiError";
 import validator from "validator";
@@ -7,10 +6,9 @@ import blogValidator, {
     blogChangesValidator,
 } from "../validators/blog.validator";
 import { IRequestInput } from "../types/http.types";
+import { IBlogData } from "../types/blogRepository.types";
 
-export default function AdminServices() {
-    const blogData = BlogData();
-
+export default function AdminServices(blogsDB: IBlogData) {
     async function createNewBlog(data: IRequestInput) {
         // Validate blog data
         blogValidator(data);
@@ -22,10 +20,11 @@ export default function AdminServices() {
             tags: data.tags,
             slug: slugify(data.title, { lower: true }),
             is_published: false,
+            published_on: "",
         };
 
         // Save blog in database
-        const newBlog = await blogData.create(blogDataObject);
+        const newBlog = await blogsDB.create(blogDataObject);
         return newBlog;
     }
 
@@ -35,14 +34,14 @@ export default function AdminServices() {
             throw new ApiError("Invalid blog id", 400);
         }
         // Check if blog exists or not
-        const blog = await blogData.findByID(id);
+        const blog = await blogsDB.findByID(id);
         if (blog === null) {
             throw new ApiError("Blog not found", 404);
         }
         // Validate changes object
         blogChangesValidator(changes);
         // Save changes in database
-        const updatedBlog = await blogData.updateByID(id, changes);
+        const updatedBlog = await blogsDB.updateByID(id, changes);
         return updatedBlog;
     }
 
@@ -52,7 +51,7 @@ export default function AdminServices() {
             throw new ApiError("Invalid blog id", 400);
         }
         // Check if blog exists or not
-        const blog = await blogData.findByID(id);
+        const blog = await blogsDB.findByID(id);
         if (blog === null) {
             throw new ApiError("Blog not found", 404);
         }
@@ -61,7 +60,7 @@ export default function AdminServices() {
             throw new ApiError("Blog has been published already", 400);
         }
         // Save changes in database
-        await blogData.updateByID(id, {
+        await blogsDB.updateByID(id, {
             is_published: true,
         });
         return null;
@@ -73,7 +72,7 @@ export default function AdminServices() {
             throw new ApiError("Invalid blog id", 400);
         }
         // Check if blog exists or not
-        const blog = await blogData.findByID(id);
+        const blog = await blogsDB.findByID(id);
         if (blog === null) {
             throw new ApiError("Blog not found", 404);
         }
@@ -82,7 +81,7 @@ export default function AdminServices() {
             throw new ApiError("Blog is un-published already", 400);
         }
         // Save changes in database
-        await blogData.updateByID(id, {
+        await blogsDB.updateByID(id, {
             is_published: false,
         });
         return null;
@@ -96,7 +95,7 @@ export default function AdminServices() {
         let sort = "-createdAt"; // returns newest blogs first
         if (sortBy === "oldest") sort = "createdAt"; // returns oldest blogs first
 
-        const blogs = await blogData.findByFilter(true, sort, skipVal);
+        const blogs = await blogsDB.findByFilter(true, sort, skipVal);
         return blogs;
     }
 
@@ -108,7 +107,7 @@ export default function AdminServices() {
         let sort = "-createdAt"; // returns newest blogs first
         if (sortBy === "oldest") sort = "createdAt"; // returns oldest blogs first
 
-        const blogs = await blogData.findByFilter(false, sort, skipVal);
+        const blogs = await blogsDB.findByFilter(false, sort, skipVal);
         return blogs;
     }
 
