@@ -1,5 +1,5 @@
 import BlogServices from "../src/services/blog.services";
-import mockBlogDB from "../mocks/blogsDB.mock";
+import mockBlogDB from "../__mocks__/blogsDB.mock";
 
 describe("Blog Services", () => {
     const blogServices = BlogServices(mockBlogDB);

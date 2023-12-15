@@ -25,21 +25,33 @@ const mockBlogDB: IBlogData = {
                 is_published: false,
             }),
         ),
-    findByID: function (_id: string): Promise<IBlog | null> {
-        throw new Error("Function not implemented.");
-    },
+    findByID: jest
+        .fn()
+        .mockReturnValueOnce(Promise.resolve(null))
+        .mockReturnValueOnce(
+            Promise.resolve({
+                title: "My blog",
+                blogBody: "This is a mock blog db",
+                slug: "my-blog",
+                tags: ["testing"],
+                published_on: "Wed Dec 02 2023",
+                is_published: true,
+            }),
+        )
+        .mockReturnValueOnce(
+            Promise.resolve({
+                is_published: false,
+            }),
+        ),
     create: function (_data: IBlog): Promise<IBlog> {
         throw new Error("Function not implemented.");
     },
     deleteByID: function (_id: string): Promise<null> {
         throw new Error("Function not implemented.");
     },
-    updateByID: function (
-        _id: string,
-        _changes: Partial<IBlog>,
-    ): Promise<IBlog> {
-        throw new Error("Function not implemented.");
-    },
+    updateByID: jest.fn().mockReturnValue({
+        is_published: true,
+    }),
     findByFilter: function (
         _is_published: boolean,
         _sortBy: string,
