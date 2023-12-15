@@ -1,9 +1,7 @@
-import AdminServices from "../../services/admin.services";
+import adminServices from "../../services/admin";
 import { catchAsyncError } from "../../utils/catchAsyncError";
 
 export default function AdminControllers() {
-    const adminServices = AdminServices();
-
     const postNewBlog = catchAsyncError(async function (reqObject) {
         const blogData = reqObject.body;
         const newBlog = await adminServices.createNewBlog(blogData);
