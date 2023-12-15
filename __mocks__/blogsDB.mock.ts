@@ -49,8 +49,17 @@ const mockBlogDB: IBlogData = {
     deleteByID: function (_id: string): Promise<null> {
         throw new Error("Function not implemented.");
     },
-    updateByID: jest.fn().mockReturnValue({
-        is_published: true,
+    updateByID: jest.fn((_id: string, data: Partial<IBlog>) => {
+        const blog = {
+            title: "My blog",
+            blogBody: "This is a mock blog db",
+            slug: "my-blog",
+            tags: ["testing"],
+            published_on: "Wed Dec 02 2023",
+            is_published: true,
+        };
+        blog.title = data.title!;
+        return Promise.resolve(blog);
     }),
     findByFilter: function (
         _is_published: boolean,

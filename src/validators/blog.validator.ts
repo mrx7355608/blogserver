@@ -46,18 +46,9 @@ const blogChangesValidationSchema = joi.object({
         "array.max": "There can only be 5 tags per blog",
         "array.base": "Blog tags should be in a list",
     }),
-    slug: joi.string().messages({
-        "string.empty": "Blog slug cannot be empty",
-        "string.base": "Blog slug should be a string",
-    }),
-    is_published: joi.boolean().messages({
-        "boolean.empty":
-            "Blog is_published field should be either true or false",
-        "boolean.base": "Blog is_published field should be a boolean",
-    }),
 });
 
-export function blogChangesValidator(data: IBlog) {
+export function blogChangesValidator(data: Partial<IBlog>) {
     const { error } = blogChangesValidationSchema.validate(data);
     if (error) {
         throw new ApiError(error.message, 400);

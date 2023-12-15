@@ -5,7 +5,7 @@ import { blogChangesValidator } from "../../validators/blog.validator";
 import { IBlog } from "../../types/blog.types";
 
 export default function editBlog(blogsDB: IBlogData) {
-    return async function (id: string, changes: IBlog) {
+    return async function (id: string, changes: Partial<IBlog>) {
         // Validate blog id
         if (validator.isMongoId(id) === false) {
             throw new ApiError("Invalid blog id", 400);

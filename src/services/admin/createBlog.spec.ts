@@ -3,6 +3,7 @@ import createBlog from "./createBlog";
 
 const createNewBlog = createBlog(mockBlogDB);
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 describe("Create a new blog", () => {
     const data = {
         title: "Jest Mock Functions",
@@ -11,62 +12,64 @@ describe("Create a new blog", () => {
     };
 
     it("should check if blog title is an empty string or not", async () => {
-        return expect(createNewBlog({ ...data, title: "" })).rejects.toThrow(
-            "Blog title cannot be empty",
-        );
+        try {
+            await createNewBlog({ ...data, title: "" });
+        } catch (err: any) {
+            expect(err.message).toBe("Blog title cannot be empty");
+        }
     });
-    it("should validate title's length", () => {
-        return expect(
-            createNewBlog({
-                ...data,
-                title: "abc",
-            }),
-        ).rejects.toThrow("Blog title should be atleast 10 characters long");
+    it("should validate title's length", async () => {
+        try {
+            await createNewBlog({ ...data, title: "abc" });
+        } catch (err: any) {
+            expect(err.message).toBe(
+                "Blog title should be atleast 10 characters long",
+            );
+        }
     });
     it("should check if title is a string or not", async () => {
-        return expect(
-            createNewBlog({
-                ...data,
-                title: null!,
-            }),
-        ).rejects.toThrow("Blog title should be a string");
+        try {
+            await createNewBlog({ ...data, title: null! });
+        } catch (err: any) {
+            expect(err.message).toBe("Blog title should be a string");
+        }
     });
 
-    it("should check if blog body is an empty string or not", () => {
-        return expect(createNewBlog({ ...data, body: "" })).rejects.toThrow(
-            "Blog body cannot be empty",
-        );
+    it("should check if blog body is an empty string or not", async () => {
+        try {
+            await createNewBlog({ ...data, body: "" });
+        } catch (err: any) {
+            expect(err.message).toBe("Blog body cannot be empty");
+        }
     });
     it("should validate blog body's length", async () => {
-        return expect(
-            createNewBlog({
-                ...data,
-                body: "abc",
-            }),
-        ).rejects.toThrow("Blog body should be atleast 400 characters long");
+        try {
+            await createNewBlog({ ...data, body: "abc" });
+        } catch (err: any) {
+            expect(err.message).toBe(
+                "Blog body should be atleast 400 characters long",
+            );
+        }
     });
     it("should check if body is a string or not", async () => {
-        return expect(
-            createNewBlog({
-                ...data,
-                body: null!,
-            }),
-        ).rejects.toThrow("Blog body should be a string");
+        try {
+            await createNewBlog({ ...data, body: null! });
+        } catch (err: any) {
+            expect(err.message).toBe("Blog body should be a string");
+        }
     });
-    it("should check if the tags are provided", () => {
-        return expect(
-            createNewBlog({
-                ...data,
-                tags: null!,
-            }),
-        ).rejects.toThrow("Blog tags should be in a list");
+    it("should check if the tags are provided", async () => {
+        try {
+            await createNewBlog({ ...data, tags: null! });
+        } catch (err: any) {
+            expect(err.message).toBe("Blog tags should be in a list");
+        }
     });
-    it("should check if tags list is not empty", () => {
-        return expect(
-            createNewBlog({
-                ...data,
-                tags: [],
-            }),
-        ).rejects.toThrow("Add atleast one tag to your blog");
+    it("should check if tags list is not empty", async () => {
+        try {
+            await createNewBlog({ ...data, tags: [] });
+        } catch (err: any) {
+            expect(err.message).toBe("Add atleast one tag to your blog");
+        }
     });
 });
