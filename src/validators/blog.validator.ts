@@ -40,7 +40,7 @@ const blogChangesValidationSchema = joi.object({
         "string.max": "Blog body should not be longer than 6000 characters",
         "string.base": "Blog body should be a string",
     }),
-    tags: joi.array().valid(joi.string()).min(1).max(5).messages({
+    tags: joi.array().items(joi.string()).min(1).max(5).messages({
         "array.empty": "Blog tags cannot be empty",
         "array.min": "Add atleast one tag to your blog",
         "array.max": "There can only be 5 tags per blog",
