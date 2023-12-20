@@ -1,5 +1,6 @@
 import { IBlog } from "../src/types/blog.types";
 import { IBlogData } from "../src/types/blogRepository.types";
+import { IRequestInput } from "../src/types/http.types";
 
 const mockDatabase: IBlog[] = [];
 
@@ -43,9 +44,14 @@ const mockBlogDB: IBlogData = {
                 is_published: false,
             }),
         ),
-    create: function (_data: IBlog): Promise<IBlog> {
-        throw new Error("Function not implemented.");
-    },
+    create: jest.fn((data: IRequestInput) => {
+        const newBlog = {
+            ...data,
+            slug: "some-slug",
+            is_published: true,
+        };
+        return Promise.resolve(newBlog);
+    }),
     deleteByID: function (_id: string): Promise<null> {
         throw new Error("Function not implemented.");
     },

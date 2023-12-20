@@ -1,75 +1,31 @@
-import mockBlogDB from "../../../__mocks__/blogsDB.mock";
 import createBlog from "./createBlog";
+import mockBlogDB from "../../../__mocks__/blogsDB.mock";
 
 const createNewBlog = createBlog(mockBlogDB);
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 describe("Create a new blog", () => {
-    const data = {
-        title: "Jest Mock Functions",
-        body: "Mock functions are also very effective in code that uses a functional continuation-passing style. Code written in this style helps avoid the need for complicated stubs that recreate the behavior of the real component they're standing in for, in favor of injecting values directly into the test right before they're used.Mock functions are also very effective in code that uses a functional continuation-passing style. Code written in this style helps avoid the need for complicated stubs that recreate the behavior of the real component they're standing in for, in favor of injecting values directly into the test right before they're used.Mock functions are also very effective in code that uses a functional continuation-passing style. Code written in this style helps avoid the need for complicated stubs that recreate the behavior of the real component they're standing in for, in favor of injecting values directly into the test right before they're used.Mock functions are also very effective in code that uses a functional continuation-passing style. Code written in this style helps avoid the need for complicated stubs that recreate the behavior of the real component they're standing in for, in favor of injecting values directly into the test right before they're used.Mock functions are also very effective in code that uses a functional continuation-passing style. Code written in this style helps avoid the need for complicated stubs that recreate the behavior of the real component they're standing in for, in favor of injecting values directly into the test right before they're used.Mock functions are also very effective in code that uses a functional continuation-passing style. Code written in this style helps avoid the need for complicated stubs that recreate the behavior of the real component they're standing in for, in favor of injecting values directly into the test right before they're used.",
-        tags: ["testing", "api"],
-    };
-
-    it("should check if blog title is an empty string or not", async () => {
+    it("should throw error if data is not provided", async () => {
         try {
-            await createNewBlog({ ...data, title: "" });
+            await createNewBlog(null);
         } catch (err: any) {
-            expect(err.message).toBe("Blog title cannot be empty");
+            expect(err.message).toBe("Blog cannot be created without any data");
         }
     });
-    it("should validate title's length", async () => {
-        try {
-            await createNewBlog({ ...data, title: "abc" });
-        } catch (err: any) {
-            expect(err.message).toBe(
-                "Blog title should be atleast 10 characters long",
-            );
-        }
-    });
-    it("should check if title is a string or not", async () => {
-        try {
-            await createNewBlog({ ...data, title: null! });
-        } catch (err: any) {
-            expect(err.message).toBe("Blog title should be a string");
-        }
-    });
-
-    it("should check if blog body is an empty string or not", async () => {
-        try {
-            await createNewBlog({ ...data, body: "" });
-        } catch (err: any) {
-            expect(err.message).toBe("Blog body cannot be empty");
-        }
-    });
-    it("should validate blog body's length", async () => {
-        try {
-            await createNewBlog({ ...data, body: "abc" });
-        } catch (err: any) {
-            expect(err.message).toBe(
-                "Blog body should be atleast 400 characters long",
-            );
-        }
-    });
-    it("should check if body is a string or not", async () => {
-        try {
-            await createNewBlog({ ...data, body: null! });
-        } catch (err: any) {
-            expect(err.message).toBe("Blog body should be a string");
-        }
-    });
-    it("should check if the tags are provided", async () => {
-        try {
-            await createNewBlog({ ...data, tags: null! });
-        } catch (err: any) {
-            expect(err.message).toBe("Blog tags should be in a list");
-        }
-    });
-    it("should check if tags list is not empty", async () => {
-        try {
-            await createNewBlog({ ...data, tags: [] });
-        } catch (err: any) {
-            expect(err.message).toBe("Add atleast one tag to your blog");
-        }
+    it("should create a blog", async () => {
+        const data = {
+            title: "New CSS Property",
+            blogBody:
+                "One of the most annoying things to deal with in CSS is margins. They have weird interactions with collapsing and more often than not you end up with extra spacing where you don’t want it. This becomes an even larger pain when moving to a component based design system since now you need to ensure your components all work well with each other without leaking styles outside themselves.s you can see, the bottom margin of the last child is forcing the card to have extra space on the bottom which makes the card taller than it should be. This is relatively easy to fix if we change our",
+            tags: ["CSS"],
+        };
+        const newBlog = await createNewBlog(data);
+        expect(newBlog).toStrictEqual({
+            title: data.title,
+            tags: data.tags,
+            blogBody: data.blogBody,
+            slug: "some-slug",
+            is_published: true,
+        });
     });
 });

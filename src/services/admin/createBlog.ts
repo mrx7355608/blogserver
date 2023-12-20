@@ -3,20 +3,26 @@ import { IRequestInput } from "../../types/http.types";
 import { IBlog } from "../../types/blog.types";
 import slugify from "slugify";
 import { IBlogData } from "../../types/blogRepository.types";
+import { ApiError } from "../../utils/ApiError";
 
 export default function createBlog(blogsDB: IBlogData) {
-    return async function (data: IRequestInput) {
+    return async function (data: IRequestInput | null) {
+        // Check if data is given or not
+        if (data == null || data == undefined) {
+            throw new ApiError("Blog cannot be created without any data", 400);
+        }
+
         // Validate blog data
         blogValidator(data);
 
         // Create a new blog object
+        const { title, blogBody, tags } = data;
         const blogDataObject: IBlog = {
-            title: data.title,
-            blogBody: data.body,
-            tags: data.tags,
-            slug: slugify(data.title, { lower: true }),
-            is_published: false,
-            published_on: "",
+            title,
+            blogBody,
+            tags,
+            slug: slugify(title, { lower: true }),
+            is_published: true,
         };
 
         // Save blog in database
