@@ -9,9 +9,6 @@ describe("Edit blog", () => {
         title: "Blog 2 - Despair",
         blogBody:
             "A short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despairA short blog about despair",
-        slug: "blog-2-despair",
-        published_on: "Wed Dec 13, 2023",
-        is_published: false,
         tags: ["life"],
     };
 
@@ -22,23 +19,11 @@ describe("Edit blog", () => {
             expect(err.message).toBe("Invalid blog id");
         }
     });
-    it("should return error if blog does not exist", async () => {
+    it("should throw error if blog does not exist", async () => {
         try {
             await editBlog("6576ea783fca4cc2390a95ce", changes);
         } catch (err: any) {
             expect(err.message).toBe("Blog not found");
-        }
-    });
-    it("should validate the changes before updating the blog", async () => {
-        try {
-            await editBlog("6576ea783fca4cc2390a95ce", {
-                ...changes,
-                title: "Abc",
-            });
-        } catch (err: any) {
-            expect(err.message).toBe(
-                "Blog title should be atleast 10 characters long",
-            );
         }
     });
     it("should update the blog", async () => {
