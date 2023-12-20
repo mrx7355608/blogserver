@@ -17,6 +17,6 @@ export type ControllerFunc = (
 
 export interface IRequestInput {
     title: string;
-    body: string;
+    blogBody: string;
     tags: string[];
 }

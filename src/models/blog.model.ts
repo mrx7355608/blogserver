@@ -7,20 +7,12 @@ const blogSchema = new Schema<IBlogMongooseModel>(
         blogBody: String,
         tags: [String],
         slug: String,
-        is_published: {
-            type: Boolean,
-            default: false,
-        },
+        is_published: Boolean,
     },
     {
         timestamps: true,
-        toJSON: { virtuals: true },
     },
 );
-
-blogSchema.virtual("published_on").get(function () {
-    return new Date(this.createdAt).toDateString();
-});
 
 const BlogModel = model("Blog", blogSchema);
 export { BlogModel };
