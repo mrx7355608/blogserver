@@ -1,11 +1,7 @@
-import BlogData from "../../data/blog.data";
-import BlogServices from "../../services/blog.services";
+import blogServices from "../../services/blog";
 import { catchAsyncError } from "../../utils/catchAsyncError";
 
 export default function BlogControllers() {
-    const blogsDB = BlogData();
-    const blogServices = BlogServices(blogsDB);
-
     const getAllBlogs = catchAsyncError(async function (reqObject) {
         const page = reqObject.query.page * 1 || 1;
         const blogs = await blogServices.listAllBlogs(page);
