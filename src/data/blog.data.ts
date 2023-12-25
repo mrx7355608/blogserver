@@ -2,12 +2,14 @@ import { BlogModel } from "../models/blog.model";
 import { IBlog, IBlogMongooseModel } from "../types/blog.types";
 
 export default function BlogData() {
-    async function findAllPublishedBlogs(skipVal: number): Promise<IBlog[]> {
-        const blogs = await BlogModel.find({ is_published: true })
-            .skip(skipVal)
-            .limit(10)
-            .sort("-createdAt")
-            .lean();
+    async function findAllPublishedBlogs(
+        skipVal: number,
+    ): Promise<IBlogMongooseModel[]> {
+        const query = BlogModel.find({ is_published: true }).lean();
+        query.sort("-createdAt");
+        query.skip(skipVal);
+        query.limit(10);
+        const blogs = await query.exec();
         return blogs;
     }
 

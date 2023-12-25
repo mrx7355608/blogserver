@@ -1,4 +1,4 @@
-import { IBlog } from "../src/types/blog.types";
+import { IBlog, IBlogMongooseModel } from "../src/types/blog.types";
 import { IBlogData } from "../src/types/blogRepository.types";
 import { IRequestInput } from "../src/types/http.types";
 
@@ -10,7 +10,9 @@ const mockBlogDB: IBlogData = {
     findByTitle: function (_title: string, _skipVal: number): Promise<IBlog[]> {
         throw new Error("Function not implemented.");
     },
-    findAllPublishedBlogs: function (_skipVal: number): Promise<IBlog[]> {
+    findAllPublishedBlogs: function (
+        _skipVal: number,
+    ): Promise<IBlogMongooseModel[]> {
         throw new Error("Function not implemented.");
     },
     findBySlug: jest

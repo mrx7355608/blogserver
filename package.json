@@ -19,6 +19,7 @@
         "@types/mongoose": "^5.11.97",
         "@types/morgan": "^1.9.9",
         "@types/node": "^20.10.4",
+        "@types/supertest": "^6.0.1",
         "@types/validator": "^13.11.7",
         "@typescript-eslint/eslint-plugin": "^6.13.2",
         "@typescript-eslint/parser": "^6.13.2",
@@ -39,6 +40,7 @@
         "mongoose": "^8.0.3",
         "morgan": "^1.10.0",
         "slugify": "^1.6.6",
+        "supertest": "^6.3.3",
         "validator": "^13.11.0"
     }
 }
