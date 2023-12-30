@@ -13,10 +13,12 @@ export default function passportSetup() {
         // send back admin data
     }))
 
-    passport.serializeUser((user: IUser, done: any) => done(null, user.id));
+    passport.serializeUser((user: any, done: any) => {
+        return done(null, user.id)
+    });
     passport.deserializeUser(async (id: string, done: any) => {
         try {
-            const user = await usersDB.findById(id);
+            const user = await usersDB.findByID(id);
             return done(null, user);
         } catch (err: any) {
             return done(err);
