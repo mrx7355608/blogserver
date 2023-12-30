@@ -4,9 +4,5 @@ export interface IBlog {
     tags: string[];
     slug: string;
     is_published: boolean;
-}
-
-export interface IBlogMongooseModel extends Document, IBlog {
-    createdAt: Date;
-    updatedAt: Date;
+    published_on: string; // date string
 }

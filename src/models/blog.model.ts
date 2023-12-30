@@ -1,7 +1,7 @@
 import { Schema, model } from "mongoose";
-import { IBlogMongooseModel } from "../types/blog.types";
+import { IBlogMongoose } from "../data/blog.data"
 
-const blogSchema = new Schema<IBlogMongooseModel>(
+const blogSchema = new Schema<IBlogMongoose>(
     {
         title: String,
         blogBody: String,

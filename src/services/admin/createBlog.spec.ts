@@ -26,6 +26,7 @@ describe("Create a new blog", () => {
             blogBody: data.blogBody,
             slug: "some-slug",
             is_published: true,
+            published_on: expect.any(String)
         });
     });
 });

@@ -1,4 +1,4 @@
-import { IBlog, IBlogMongooseModel } from "../src/types/blog.types";
+import { IBlog } from "../src/types/blog.types";
 import { IBlogData } from "../src/types/blogRepository.types";
 import { IRequestInput } from "../src/types/http.types";
 
@@ -12,7 +12,7 @@ const mockBlogDB: IBlogData = {
     },
     findAllPublishedBlogs: function (
         _skipVal: number,
-    ): Promise<IBlogMongooseModel[]> {
+    ): Promise<IBlog[]> {
         throw new Error("Function not implemented.");
     },
     findBySlug: jest
@@ -51,6 +51,7 @@ const mockBlogDB: IBlogData = {
             ...data,
             slug: "some-slug",
             is_published: true,
+            published_on: new Date().toDateString()
         };
         return Promise.resolve(newBlog);
     }),

@@ -23,6 +23,7 @@ export default function createBlog(blogsDB: IBlogData) {
             tags,
             slug: slugify(title, { lower: true }),
             is_published: true,
+            published_on: new Date().toDateString()
         };
 
         // Save blog in database
