@@ -1,34 +1,41 @@
 import loginDataValidator from "./auth.validator";
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 describe("Login validations", () => {
     const loginCreds = {
         username: "fawadimran",
-        password: "1234567890"
-    }
+        password: "1234567890",
+    };
     it("should throw error on invalid username", () => {
-        expect(() => loginDataValidator({ ...loginCreds, username: 123 as any }))
-        .toThrow("Invalid username")
-    })
-    it("should throw error if username is not given",() => {
-        expect(() => loginDataValidator({ password: "123213213123" } as any))
-        .toThrow("Please enter your username")
-    })
+        const error = loginDataValidator({
+            ...loginCreds,
+            username: 123 as any,
+        });
+        expect(error).toBe("Invalid username");
+    });
+    it("should throw error if username is not given", () => {
+        const error = loginDataValidator({ password: "123213213123" } as any);
+        expect(error).toBe("Please enter your username");
+    });
 
     it("should throw error if pswd is not given", () => {
-        expect(() => loginDataValidator({ username: "fawad" } as any))
-        .toThrow("Please enter your password")
-    })
+        const error = loginDataValidator({ username: "fawad" } as any);
+        expect(error).toBe("Please enter your password");
+    });
     it("should throw error on invalid password", () => {
-        expect(() => loginDataValidator({ ...loginCreds, password: {} as any }))
-        .toThrow("Invalid password")
-    })
+        const error = loginDataValidator({
+            ...loginCreds,
+            password: {} as any,
+        });
+        expect(error).toBe("Invalid password");
+    });
 
     it("should throw error if data contains unknown fields", () => {
-        expect(
-            () => loginDataValidator(
-                { ...loginCreds, is_admin: true, test: undefined } as any
-            )
-        )
-        .toThrow("Unknown field detected, cannot login")
-    })
-})
+        const error = loginDataValidator({
+            ...loginCreds,
+            is_admin: true,
+            test: undefined,
+        } as any);
+        expect(error).toBe("Unknown field detected, cannot login");
+    });
+});
