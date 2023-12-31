@@ -18,7 +18,6 @@ app.use(express.urlencoded({ extended: false }));
 
 // ROUTES
 app.use("/api/v1/blogs", blogRouter);
-// WARNING: change this dumb route
 app.use("/api/v1/admin", adminRouter);
 
 // ERROR HANDLERS
