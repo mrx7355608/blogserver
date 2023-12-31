@@ -5,7 +5,7 @@ import hpp from "hpp";
 import cors from "cors";
 import session from "express-session";
 import passport from "passport";
-import { MongoDBStore } from "connect-mongodb-session";
+import connectMongoStore from "connect-mongodb-session";
 import { catch404, globalErrorHandler } from "./loaders/errorHandler";
 import { blogRouter } from "./api/routes/blog.routes";
 import { adminRouter } from "./api/routes/admin.routes";
@@ -19,7 +19,8 @@ app.use(cors());
 app.use(hpp());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-const mongoStore = new MongoDBStore({
+const MongoStore = connectMongoStore(session);
+const store = new MongoStore({
     uri: process.env.DATABASE_URL as string,
     collection: "sessions",
 });
@@ -28,7 +29,7 @@ app.use(
         secret: process.env.SESSION_SECRET as string,
         resave: false,
         saveUninitialized: false,
-        store: mongoStore,
+        store: store,
         cookie: {
             httpOnly: true,
             maxAge: 24 * 3600 * 1000, // 1 day
