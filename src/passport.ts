@@ -6,9 +6,9 @@ import loginDataValidator from "./validators/auth.validator";
 
 const usersDB = UserData();
 
+/* eslint-disable @typescript-eslint/no-explicit-any */
 export default function passportSetup() {
     passport.use(
-        // eslint-disable-next-line
         new Strategy(async (username: string, password: string, done: any) => {
             // validate username and password inputs
             const errorMessage = loginDataValidator({ username, password });
@@ -36,7 +36,7 @@ export default function passportSetup() {
             }
 
             // send back admin data
-            return done(admin);
+            return done(null, admin);
         }),
     );
 
