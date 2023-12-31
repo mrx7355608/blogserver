@@ -1,8 +1,13 @@
-import { NextFunction, Request, Response, Router } from "express";
 import passport from "passport";
-import AdminControllers from "../controllers/admin.controllers";
-import isAdminMiddleware from "../../middlewares/isAdmin.middleware";
 import apiResponse from "../../utils/apiResponse.util";
+import AdminControllers from "../controllers/admin.controllers";
+import { NextFunction, Request, Response, Router } from "express";
+import isAdminMiddleware from "../../middlewares/isAdmin.middleware";
+import {
+    adminLoginLimiter,
+    adminBlogActionsLimiter,
+    adminReadOnlyLimiter,
+} from "../../utils/rateLimiters";
 
 const adminRouter = Router();
 const adminControllers = AdminControllers();
@@ -10,6 +15,7 @@ const adminControllers = AdminControllers();
 /* eslint-disable @typescript-eslint/no-explicit-any */
 adminRouter.post(
     "/signin",
+    adminLoginLimiter,
     async (req: Request, res: Response, next: NextFunction) => {
         passport.authenticate(
             "local",
@@ -38,11 +44,35 @@ adminRouter.post(
 
 // Middeware to prevent unauthorized access
 adminRouter.use(isAdminMiddleware);
-adminRouter.post("/create-new-blog", adminControllers.postNewBlog);
-adminRouter.patch("/edit-blog/:id", adminControllers.patchBlog);
-adminRouter.patch("/publish-blog/:id", adminControllers.patchPublishBlog);
-adminRouter.patch("/unpublish-blog/:id", adminControllers.patchUnPublishBlog);
-adminRouter.get("/blogs/published", adminControllers.getPublishedBlogs);
-adminRouter.get("/blogs/un-published", adminControllers.getUnPublishedBlogs);
+adminRouter.post(
+    "/create-new-blog",
+    adminBlogActionsLimiter,
+    adminControllers.postNewBlog,
+);
+adminRouter.patch(
+    "/edit-blog/:id",
+    adminBlogActionsLimiter,
+    adminControllers.patchBlog,
+);
+adminRouter.patch(
+    "/publish-blog/:id",
+    adminBlogActionsLimiter,
+    adminControllers.patchPublishBlog,
+);
+adminRouter.patch(
+    "/unpublish-blog/:id",
+    adminBlogActionsLimiter,
+    adminControllers.patchUnPublishBlog,
+);
+adminRouter.get(
+    "/blogs/published",
+    adminReadOnlyLimiter,
+    adminControllers.getPublishedBlogs,
+);
+adminRouter.get(
+    "/blogs/un-published",
+    adminReadOnlyLimiter,
+    adminControllers.getUnPublishedBlogs,
+);
 
 export { adminRouter };
