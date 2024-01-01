@@ -6,5 +6,6 @@ const blogControllers = BlogControllers();
 
 blogRouter.get("/", blogControllers.getAllBlogs);
 blogRouter.get("/:slug", blogControllers.getBlogBySlug);
+blogRouter.get("/search", blogControllers.getSearchBlogs);
 
 export { blogRouter };

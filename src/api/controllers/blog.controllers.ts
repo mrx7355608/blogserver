@@ -22,5 +22,16 @@ export default function BlogControllers() {
         };
     });
 
-    return { getAllBlogs, getBlogBySlug };
+    const getSearchBlogs = catchAsyncError(async function (reqObject) {
+        const page = reqObject.query.page * 1 || 1;
+        const query = req.query.search;
+        const blogs = await blogServices.searchBlogs(query, page);
+        return {
+            code: 200,
+            data: blogs,
+            message: "",
+        };
+    });
+
+    return { getAllBlogs, getBlogBySlug, getSearchBlogs };
 }

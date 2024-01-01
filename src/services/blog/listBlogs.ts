@@ -1,4 +1,3 @@
-import { IBlogMongoose } from "../../data/blog.data";
 import { IBlogData } from "../../types/blogRepository.types";
 
 export default function listBlogs(blogsDB: IBlogData) {
