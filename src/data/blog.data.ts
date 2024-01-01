@@ -27,8 +27,13 @@ export default function BlogData() {
         title: string,
         skipVal: number,
     ): Promise<IBlog[]> {
-        // TODO: use title regex instead of title itself
-        const blogs = await BlogModel.find({ title, is_published: true })
+        const blogs = await BlogModel.find({ 
+            title: {
+                $regex: new RegExp(title),
+                $options: "i",
+            }, 
+            is_published: true 
+        })
             .skip(skipVal)
             .limit(10)
             .sort("-createdAt")
