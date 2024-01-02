@@ -23,20 +23,27 @@ export default function BlogData() {
         return blogs as IBlog[];
     }
 
-    // ***FIX REQUIRED***
-    // ERROR: same error as the above function
-    // Used in searching blogs
     async function findByTitle(
         title: string,
         skipVal: number,
     ): Promise<IBlog[]> {
-        const blogs = await BlogModel.find({ 
-            title: {
-                $regex: new RegExp(title),
-                $options: "i",
-            }, 
-            is_published: true 
-        })
+        const blogs = await BlogModel.find(
+            { 
+                title: {
+                    $regex: new RegExp(title),
+                    $options: "i",
+                }, 
+                is_published: true 
+            },
+            {
+                _id: 0,
+                id: 0,
+                __v: 0,
+                createdAt: 0,
+                updatedAt: 0,
+                is_published: 0
+            }
+        )
             .skip(skipVal)
             .limit(10)
             .sort("-createdAt")
@@ -54,11 +61,15 @@ export default function BlogData() {
     // #############################
     //      FOR ADMIN USE ONLY
     // #############################
-
-    // ***FIX REQUIRED***
-    // ERROR: same error as the previous error
     async function findAll(skipVal: number): Promise<IBlog[]> {
-        const blogs = await BlogModel.find()
+        const blogs = await BlogModel.find({}, {
+            _id: 0,
+            id: 0,
+            __v: 0,
+            createdAt: 0,
+            updatedAt: 0,
+            is_published: 0
+        })
             .skip(skipVal)
             .limit(10)
             .sort("-createdAt")
@@ -96,7 +107,17 @@ export default function BlogData() {
         sortBy: string,
         skipVal: number,
     ) {
-        const blogs = await BlogModel.find({ is_published })
+        const blogs = await BlogModel.find(
+            { is_published },
+            {
+                _id: 0,
+                id: 0,
+                __v: 0,
+                createdAt: 0,
+                updatedAt: 0,
+                is_published: 0
+            }
+        )
             .sort(sortBy)
             .skip(skipVal)
             .limit(10);
