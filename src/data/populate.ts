@@ -25,7 +25,7 @@ async function createFakeBlogs(): Promise<IBlog[]> {
 }
 
 async function populate() {
-    await connectDB("");
+    await connectDB(process.env.DATABASE_URL as string);
     const blogs = await createFakeBlogs();
     await BlogModel.insertMany(blogs);
 }
