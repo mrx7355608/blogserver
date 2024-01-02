@@ -1,23 +1,26 @@
 import { BlogModel } from "../models/blog.model";
+import { IBlogMongoose } from "../types/blog.types";
 import { IBlog } from "../types/blog.types";
-import { Document } from "mongoose";
-
-export interface IBlogMongoose extends Document, IBlog {}
 
 export default function BlogData() {
-    // ***FIX REQUIRED***
-    // ERROR: function is returning  blogs of 
-    // type :Mongoose Model"  instead  they should 
-    // return blogs of type "IBlog" and  typescript is  not
-    // raising error
     async function findAllPublishedBlogs(
         skipVal: number,
     ): Promise<IBlog[]> {
-        const blogs = await BlogModel.find({ is_published: true })
+        const blogs = await BlogModel.find(
+            { is_published: true },
+            {
+                _id: 0,
+                id: 0,
+                __v: 0,
+                createdAt: 0,
+                updatedAt: 0,
+                is_published: 0
+            }
+        )
             .sort("-createdAt")
             .skip(skipVal)
             .limit(10)
-        return blogs;
+        return blogs as IBlog[];
     }
 
     // ***FIX REQUIRED***
